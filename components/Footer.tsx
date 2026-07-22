@@ -43,34 +43,37 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-salt-black px-5 py-4 sm:px-6">
-      <div className="mx-auto flex max-w-[1100px] flex-col gap-3">
-        <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:items-start md:gap-8 md:text-left">
-          <Link href="/" className="shrink-0">
-            <div className="relative h-7 w-[76px]">
+    <footer className="bg-[#141414] px-6 py-8 sm:py-12 border-t border-white/5">
+      <div className="mx-auto flex max-w-[1140px] flex-col gap-10">
+        <div className="flex flex-col items-center justify-between gap-10 text-center md:flex-row md:items-start md:gap-16 md:text-left">
+          <Link href="/" className="shrink-0 group">
+            <div className="relative h-9 w-[96px] transition-transform duration-500 group-hover:scale-105">
               <Image
                 src="/Logo1.png"
                 alt="SALT — art with energy"
                 fill
-                className="object-contain object-left brightness-0 invert opacity-70"
-                sizes="76px"
+                className="object-contain object-left brightness-0 invert opacity-90 group-hover:opacity-100"
+                sizes="96px"
               />
             </div>
+            <p className="mt-3 font-sans text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase group-hover:text-salt-crimson transition-colors">
+              Art with Energy
+            </p>
           </Link>
 
-          <nav className="flex flex-col items-center gap-3 md:flex-row md:gap-8">
+          <nav className="flex flex-col items-center gap-6 md:flex-row md:gap-12">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="font-sans text-xs font-medium tracking-[0.1em] text-[#5a5452] uppercase transition-colors duration-200 hover:text-salt-white"
+                className="font-sans text-[0.7rem] font-bold tracking-[0.2em] text-white/40 uppercase transition-all duration-300 hover:text-salt-crimson hover:tracking-[0.25em]"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-4">
             {socialLinks.map((social) => (
               <a
                 key={social.label}
@@ -78,7 +81,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="flex h-7 w-7 items-center justify-center rounded-[4px] border border-[#2a2a2a] bg-transparent text-[#5a5452] transition-all duration-200 hover:border-salt-violet hover:text-salt-violet"
+                className="flex h-10 w-10 items-center justify-center rounded-sm border border-white/10 bg-white/5 text-white/40 transition-all duration-300 hover:border-salt-crimson hover:text-salt-crimson hover:bg-salt-crimson/5"
               >
                 {social.icon}
               </a>
@@ -86,23 +89,23 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="h-px w-full bg-[#1e1e1e]" />
+        <div className="h-px w-full bg-white/5" />
 
-        <div className="flex flex-col items-center justify-between gap-1.5 sm:flex-row sm:gap-3">
-          <p className="font-sans text-[0.65rem] font-normal leading-tight tracking-[0.06em] text-[#3a3a3a]">
+        <div className="flex flex-col items-center justify-between gap-6 sm:flex-row sm:gap-10">
+          <p className="font-sans text-[0.65rem] font-bold leading-tight tracking-[0.1em] text-white/20 uppercase">
             © {year} SALT — Sabine Alter. Alle Rechte vorbehalten.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-8">
             <Link
               href="/impressum"
-              className="font-sans text-[0.65rem] font-normal leading-tight tracking-[0.06em] text-[#3a3a3a] transition-colors duration-200 hover:text-[#5a5452]"
+              className="font-sans text-[0.65rem] font-bold leading-tight tracking-[0.15em] text-white/20 uppercase transition-colors duration-300 hover:text-white/60"
             >
               Impressum
             </Link>
             <Link
               href="/datenschutz"
-              className="font-sans text-[0.65rem] font-normal leading-tight tracking-[0.06em] text-[#3a3a3a] transition-colors duration-200 hover:text-[#5a5452]"
+              className="font-sans text-[0.65rem] font-bold leading-tight tracking-[0.15em] text-white/20 uppercase transition-colors duration-300 hover:text-white/60"
             >
               Datenschutz
             </Link>

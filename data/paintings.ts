@@ -2,6 +2,11 @@ export interface Painting {
   src: string;
   title: string;
   filename: string;
+  story?: {
+    headline?: string;
+    problem: string;
+    result: string;
+  };
 }
 
 export const paintings: Painting[] = [
@@ -34,6 +39,11 @@ export const paintings: Painting[] = [
     src: "/paintings/6 universelle Reinigung.jpg",
     title: "Universelle Reinigung",
     filename: "6 universelle Reinigung.jpg",
+    story: {
+        headline: "Vor Energie sprühendes Kunstwerk",
+        problem: "Dr. Josef Ackermann (Deutsche Bank) suchte nach einem künstlerischen Ausdruck von Energie und Klarheit für sein Büro.",
+        result: "Das Bild „universelle Reinigung“ wurde zum täglichen Begleiter. In einem persönlichen Dankschreiben drückte er seine höchste Wertschätzung für die sprühende Energie des Werkes aus."
+    }
   },
   {
     src: "/paintings/7 Lichtblick.jpg",
@@ -127,58 +137,73 @@ export const paintings: Painting[] = [
   },
   {
     src: "/paintings/Arbol de la vida.jpg",
-    title: "Arbol de la Vida",
+    title: "Baum des Lebens",
     filename: "Arbol de la vida.jpg",
+    story: {
+        headline: "Neue Lebensfreude & Energie",
+        problem: "Freelancerin Anfang 30 fühlt sich körperlich und emotional wie ausgelaugt, gerät immer wieder an die falschen Männer.",
+        result: "Wichtige Lebensaspekte unabhängig von einem Mann entdeckt, innere Freiheit, Energie und Lebensfreude gewonnen, neue Strahlkraft."
+    }
   },
   {
     src: "/paintings/Cojones!.jpg",
     title: "Cojones!",
     filename: "Cojones!.jpg",
+    story: {
+        headline: "Mut zur Veränderung",
+        problem: "Erfolgreicher Selbständiger um die 30 in unglücklicher Beziehung, fehlende Leidenschaft, innere Zerrissenheit.",
+        result: "Energetische Klarheit, Mut zur Trennung, wenig später die große Liebe gefunden und Familie gegründet - glücklich."
+    }
   },
   {
     src: "/paintings/Fata Morgana.jpg",
     title: "Fata Morgana",
     filename: "Fata Morgana.jpg",
-  },
-  {
-    src: "/paintings/Größe_Infinit I + II - Diptychon.jpg",
-    title: "Infinit I + II (Diptychon)",
-    filename: "Größe_Infinit I + II - Diptychon.jpg",
-  },
-  {
-    src: "/paintings/Größe_Sabine vor Wirkungs-Bild.jpg",
-    title: "Sabine vor Wirkungs-Bild",
-    filename: "Größe_Sabine vor Wirkungs-Bild.jpg",
-  },
-  {
-    src: "/paintings/Größe_Salt malt WB auf Terrasse.jpg",
-    title: "Salt malt auf Terrasse",
-    filename: "Größe_Salt malt WB auf Terrasse.jpg",
+    story: {
+        headline: "Neubeginn - Ehe gerettet",
+        problem: "Mann und Frau machten Karriere als Manager, nach 20 Ehejahren schien die Beziehung gescheitert, der Mann trennte sich, die Frau litt.",
+        result: "„Fata Morgana“ veränderte die Dynamik: die Ehe wurde wiederbelebt, sie sind bewusster und heute glücklicher als zuvor."
+    }
   },
   {
     src: "/paintings/lighthouse.jpg",
-    title: "Lighthouse",
+    title: "Leuchtturm",
     filename: "lighthouse.jpg",
-  },
-  {
-    src: "/paintings/LP Erklärmodell.jpg",
-    title: "Erklärmodell",
-    filename: "LP Erklärmodell.jpg",
+    story: {
+        headline: "Zur Liebe zurückgefunden",
+        problem: "Privatier und Freiberufler in Beziehungskrise, äußere Umstände und alte Muster gefährden die Partnerschaft, rauben Energie.",
+        result: "Veränderung in der Wahrnehmung, Verständnis wächst, Partnerschaft stabilisiert, ganz neue Energie."
+    }
   },
   {
     src: "/paintings/mR Hand in Hand.jpg",
     title: "Hand in Hand",
     filename: "mR Hand in Hand.jpg",
+    story: {
+        headline: "Mehr Geld und neue Sponsoren für Verein",
+        problem: "Gemeinnütziger Kinder-Paten-Verein braucht Geld, Sponsorensuche schwierig.",
+        result: "Wirkungs-Bild™ bringt Einnahmen auf Benefizveranstaltung und außerdem kommen neue Sponsoren."
+    }
   },
   {
     src: "/paintings/Sieh hin!.jpg",
     title: "Sieh hin!",
     filename: "Sieh hin!.jpg",
+    story: {
+        headline: "70% Krebs-Rückgang in 5 Monaten",
+        problem: "Unternehmerin kämpft um ihr Leben, ist durch Krebs fast am Ende ihrer Kraft, Ärztin will nur noch palliativ behandeln.",
+        result: "Energetische Hilfe, um nach innen zu schauen und alte Traumata zu überwinden, Metastasen schrumpfen innerhalb von 5 Monaten um 70%."
+    }
   },
   {
     src: "/paintings/sorglos geborgen.jpg",
-    title: "Sorglos Geborgen",
+    title: "Sorglos geborgen",
     filename: "sorglos geborgen.jpg",
+    story: {
+        headline: "Millionenverlust abgewendet",
+        problem: "Unternehmer durch unzuverlässigen Geschäftspartner von Insolvenz bedroht, Banken lehnen Hilfe ab, Situation scheint auswegslos.",
+        result: "Neuen Weg gefunden, Trennung von schädlichem Geschäftspartner, Millionenverlust abgewendet, Unternehmer erfolgreicher denn je."
+    }
   },
   {
     src: "/paintings/the choise.jpg",
@@ -189,10 +214,20 @@ export const paintings: Painting[] = [
     src: "/paintings/wundervolles Paar - pareja maravillosa.jpg",
     title: "Wundervolles Paar",
     filename: "wundervolles Paar - pareja maravillosa.jpg",
+    story: {
+        headline: "Lebenstraum erfüllt",
+        problem: "Bauunternehmer und leidenschaftlicher Gitarrist in AC/DC-Tribute-Band, nach Scheidung tieftraurig, findet neue Liebe, feiert Hochzeit.",
+        result: "Bestätigung der harmonischen Partnerschaft, kurz darauf Einladung zum gemeinsamen Auftritt mit Original-AC/DC-Drummer: Lebenstraum erfüllt."
+    }
   },
   {
     src: "/paintings/zeitlos.jpg",
     title: "Zeitlos",
     filename: "zeitlos.jpg",
+    story: {
+        headline: "Stress raus, Traum erfüllt",
+        problem: "Freiberufler und Partnerin um die 50 sind glücklich, wollen zusammenziehen, aber Angst vor negativen Veränderungen nagt.",
+        result: "Zweifel beseitigt, Harmonie und Beständigkeit in der Beziehung, Gefühle von Oase im Zuhause, in der Arbeitsstress abfällt und die Zeit stehen bleibt."
+    }
   },
 ];

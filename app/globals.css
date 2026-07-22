@@ -2,8 +2,8 @@
 
 /* ─── Runtime CSS variables ─────────────────────────────────────────────── */
 :root {
-  --background: #f7f5f3;
-  --foreground: #141414;
+  --background: #141414;
+  --foreground: #f7f5f3;
 }
 
 /* ─── Tailwind v4 theme — inlined utilities (font families, bg/fg) ───────── */
@@ -27,7 +27,7 @@
   --color-salt-greige: #d6ccc2;
   --color-salt-greige-bg: #f5f0eb;
   --color-salt-cream: #faf7f4;
-  --color-salt-gold: #c9a84c;
+
   --color-salt-black: #141414;
   --color-salt-white: #f7f5f3;
   --color-salt-muted: #6b6460;
@@ -47,6 +47,20 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes infiniteZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(3);
+  }
+}
+
+.gallery-magic-zoom:hover img {
+  animation: infiniteZoom 8s linear infinite;
+  transform-origin: center center;
 }
 
 /* Wie die Bilder wirken — science section animations */
@@ -172,10 +186,39 @@
   transform: scaleX(1);
 }
 
+/* ─── Custom Scrollbar ────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(106, 11, 207, 0.4) #141414;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #141414;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(106, 11, 207, 0.25);
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 0, 0, 0.6);
+  }
+}
+
 /* ─── Base styles ─────────────────────────────────────────────────────────── */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
+  overflow-x: hidden;
 }

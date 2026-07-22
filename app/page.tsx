@@ -8,9 +8,11 @@ import DiFrage from "@/components/sections/DiFrage";
 import DieGalerie from "@/components/sections/DieGalerie";
 import Hero from "@/components/sections/Hero";
 import LogosMarquee from "@/components/sections/LogosMarquee";
+import InnereFuehrung from "@/components/sections/InnereFuehrung";
 import WasIstSalt from "@/components/sections/WasIstSalt";
 import WieDieBilderWirken from "@/components/sections/WieDieBilderWirken";
 import ReviewsSlider from "@/components/sections/ReviewsSlider";
+import DieGroesse from "@/components/sections/DieGroesse";
 import UeberSabine from "@/components/sections/UeberSabine";
 
 export default function HomePage() {
@@ -19,13 +21,15 @@ export default function HomePage() {
       <Navbar />
       <Hero />
       <LogosMarquee />
+      <InnereFuehrung />
+      <AckermannReview />
+      <DieGalerie />
+      <WieDieBilderWirken />
       <DiFrage />
       <WasIstSalt />
-      <DieGalerie />
       <ChangeYourLife />
-      <WieDieBilderWirken />
-      <AckermannReview />
       <ReviewsSlider />
+      <DieGroesse />
       <DieSchritte />
       <UeberSabine />
       <CTASection />

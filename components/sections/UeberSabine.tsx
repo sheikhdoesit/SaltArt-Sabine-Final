@@ -35,24 +35,27 @@ export default function UeberSabine() {
   useScrollReveal();
 
   return (
-    <section id="sabine" className="overflow-hidden bg-salt-white px-6 py-20">
-      <div className="mx-auto max-w-[1100px]">
-        <div className="mb-16 flex flex-col items-center text-center">
+    <section id="sabine" className="relative overflow-hidden bg-[#141414] px-6 min-h-screen flex flex-col justify-center py-20 md:py-32">
+      {/* Background Atmosphere */}
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-salt-violet/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-salt-crimson/5 blur-[100px] pointer-events-none" />
+
+      <div className="mx-auto max-w-[1140px] relative z-10">
+        <div className="mb-20">
           <div
-            className="reveal-on-scroll mb-6 flex items-center gap-3"
+            className="reveal-on-scroll mb-8 flex items-center gap-4"
             style={{ transitionDelay: "0ms" }}
           >
-            <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
-            <p className="font-sans text-[0.7rem] font-semibold tracking-[0.22em] text-salt-violet uppercase">
+            <span className="inline-block h-px w-10 shrink-0 bg-salt-crimson" />
+            <p className="font-sans text-[0.65rem] font-bold tracking-[0.35em] text-salt-crimson uppercase">
               Die Künstlerin
             </p>
-            <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
           </div>
 
           <h2
-            className="reveal-on-scroll mb-4 font-sans font-extrabold leading-[1.05] tracking-[-0.02em] text-salt-black"
+            className="reveal-on-scroll mb-8 font-sans font-extrabold leading-[1.05] tracking-[-0.03em] text-white"
             style={{
-              fontSize: "clamp(1.8rem, 4vw, 3rem)",
+              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
               transitionDelay: "100ms",
             }}
           >
@@ -60,43 +63,43 @@ export default function UeberSabine() {
           </h2>
 
           <div
-            className="reveal-on-scroll h-0.5 w-12 bg-salt-crimson"
-            style={{ transitionDelay: "160ms" }}
+            className="reveal-on-scroll h-0.5 w-14 bg-salt-crimson"
+            style={{ transitionDelay: "140ms" }}
           />
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2 md:gap-20">
-          <div className="flex flex-col gap-6 md:sticky md:top-28">
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-salt-violet-light">
+        <div className="grid grid-cols-1 items-start gap-16 md:grid-cols-2 md:gap-24">
+          <div className="flex flex-col gap-8 md:sticky md:top-32">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-white/5 border border-white/10 rounded-sm shadow-2xl">
               <Image
-                src="/sabine.jpg"
+                src="/paintings/Größe_Sabine vor Wirkungs-Bild.jpg"
                 alt="Sabine Alter — SALT Energie-Künstlerin"
                 fill
-                className="object-cover object-top"
+                className="object-cover object-center transition-all duration-1000"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
 
-              <div className="absolute top-4 right-4 rounded-[2px] bg-salt-gold px-3 py-1.5 font-sans text-[0.65rem] font-semibold tracking-[0.12em] text-white uppercase">
-                3Sat · Scobel
+              <div className="absolute bottom-6 left-6 rounded-sm bg-salt-crimson px-5 py-2.5 font-sans text-[0.7rem] font-bold tracking-[0.2em] text-white uppercase shadow-2xl">
+                Sabine Alter
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-5">
               {(
                 [
-                  { value: "38+", label: "Energie-Bilder" },
-                  { value: "15+", label: "Jahre Erfahrung" },
-                  { value: "100+", label: "Aufstellungen" },
+                  { value: "38+", label: "E-Bilder" },
+                  { value: "15+", label: "Jahre" },
+                  { value: "100+", label: "Aufstlg." },
                 ] as const
               ).map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-center rounded-[4px] bg-salt-greige-bg p-4 text-center"
+                  className="flex flex-col rounded-sm bg-white/5 border border-white/10 p-5 backdrop-blur-md"
                 >
-                  <p className="mb-1 font-sans text-2xl leading-none font-extrabold text-salt-violet">
+                  <p className="mb-2 font-sans text-2xl leading-none font-extrabold text-white">
                     {stat.value}
                   </p>
-                  <p className="font-sans text-[0.6rem] font-medium tracking-[0.1em] text-salt-muted-light uppercase">
+                  <p className="font-sans text-[0.6rem] font-bold tracking-[0.1em] text-white/40 uppercase">
                     {stat.label}
                   </p>
                 </div>
@@ -104,32 +107,32 @@ export default function UeberSabine() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-12">
             {chapters.map((chapter, index) => (
               <div
                 key={chapter.label}
-                className="reveal-on-scroll border-l-2 border-salt-greige pl-6 md:pl-8"
+                className="reveal-on-scroll border-l border-white/10 pl-8 md:pl-10 group"
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <p className="mb-2 font-sans text-[0.65rem] font-semibold tracking-[0.18em] text-salt-crimson uppercase">
+                <p className="mb-3 font-sans text-[0.65rem] font-bold tracking-[0.25em] text-salt-crimson uppercase">
                   {chapter.label}
                 </p>
 
-                <h3 className="mb-3 font-sans text-lg leading-[1.2] font-bold text-salt-black md:text-xl">
+                <h3 className="mb-5 font-sans text-xl md:text-2xl leading-[1.2] font-extrabold text-white tracking-tight group-hover:text-salt-crimson transition-colors duration-500">
                   {chapter.headline}
                 </h3>
 
-                <p className="font-sans text-sm leading-[1.85] font-normal text-salt-muted">
+                <p className="font-sans text-base leading-[1.85] font-medium text-white/50">
                   {chapter.body}
                 </p>
               </div>
             ))}
 
             <div
-              className="reveal-on-scroll border-t border-salt-greige/40 pt-8"
+              className="reveal-on-scroll border-t border-white/10 pt-10"
               style={{ transitionDelay: "600ms" }}
             >
-              <p className="mb-4 font-sans text-sm leading-[1.8] font-normal text-salt-muted">
+              <p className="mb-8 font-sans text-base leading-[1.8] font-medium text-white/40">
                 Möchtest Du Sabines vollständige Geschichte lesen?
                 Oder direkt ein Gespräch vereinbaren?
               </p>
@@ -137,9 +140,9 @@ export default function UeberSabine() {
                 href="https://calendly.com/salt-art/30min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block rounded-[4px] bg-salt-crimson px-8 py-3 font-sans text-sm font-semibold tracking-[0.06em] text-white uppercase transition-colors duration-200 hover:bg-[#b8002a]"
+                className="inline-block rounded-sm bg-salt-crimson px-10 py-5 font-sans text-xs font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#b8002a] hover:scale-105 shadow-2xl"
               >
-                Gespräch vereinbaren →
+                Gespräch vereinbaren
               </a>
             </div>
           </div>

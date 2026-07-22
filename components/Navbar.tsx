@@ -7,6 +7,7 @@ import { primaryCtaClasses } from "@/lib/ctaClasses";
 
 const navLinks = [
   { label: "Galerie", href: "/galerie", type: "page" as const },
+  { label: "Stories", href: "/stories", type: "page" as const },
   {
     label: "Transformationen",
     href: "/#transformationen",
@@ -17,19 +18,45 @@ const navLinks = [
   { label: "Kontakt", href: "/#kontakt", type: "anchor" as const },
 ];
 
-const linkClass =
-  "font-body text-sm font-medium tracking-[0.08em] uppercase text-salt-black hover:text-salt-violet transition-colors duration-200 no-underline";
-
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [brandLogoBroken, setBrandLogoBroken] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isInTransformationSection, setIsInTransformationSection] = useState(false);
+  const [isMouseAtTop, setIsMouseAtTop] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Only show header when near the very top — stays hidden rest of the time
+      setScrolled(currentScrollY < 150);
+
+      // Check for transformation section exclusion
+      const transSection = document.getElementById("transformationen");
+      if (transSection) {
+        const rect = transSection.getBoundingClientRect();
+        const isActive = rect.top <= 100 && rect.bottom >= 50;
+        setIsInTransformationSection(isActive);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // Show header if mouse is in the top 80px of the screen
+      setIsMouseAtTop(e.clientY < 80);
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [lastScrollY]);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -41,26 +68,39 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 right-0 left-0 z-50 h-[72px] border-b transition-all duration-300 ease-in-out ${
-          scrolled
-            ? "border-salt-greige/40 bg-salt-white/92 backdrop-blur-md"
-            : "border-transparent bg-transparent"
+        className={`fixed top-0 right-0 left-0 z-50 h-[80px] border-b transition-all duration-700 ease-in-out ${
+          isInTransformationSection || (!scrolled && !isMouseAtTop)
+            ? "opacity-0 -translate-y-full border-transparent bg-transparent pointer-events-none"
+            : "border-white/5 bg-transparent"
         }`}
       >
-        <div className="grid h-full grid-cols-3 items-center px-6 md:px-16">
-          <div className="flex justify-start">
-            <Link href="/" className="flex shrink-0 items-center">
+        <div className="grid h-full grid-cols-3 items-center px-6 md:px-16 max-w-[1400px] mx-auto">
+          <div className={`flex justify-start transition-all duration-700 ease-in-out ${(!scrolled && !isMouseAtTop) || isInTransformationSection ? "opacity-0 invisible -translate-x-4" : "opacity-100 visible translate-x-0"}`}>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(true)}
+              className="group flex cursor-pointer flex-col gap-2 border-none bg-transparent p-2 outline-none"
+              aria-label="Menü öffnen"
+            >
+              <span className="block h-[1.5px] w-7 bg-white transition-all duration-300 group-hover:w-10 group-hover:bg-salt-crimson" />
+              <span className="block h-[1.5px] w-5 bg-white/70 transition-all duration-300 group-hover:w-8 group-hover:bg-salt-crimson" />
+              <span className="block h-[1.5px] w-7 bg-white transition-all duration-300 group-hover:w-6 group-hover:bg-salt-crimson" />
+            </button>
+          </div>
+
+          <div className={`flex justify-center transition-all duration-700 ease-in-out ${(!scrolled && !isMouseAtTop) || isInTransformationSection ? "opacity-0 invisible -translate-y-4" : "opacity-100 visible translate-y-0"}`}>
+            <Link href="/" className="flex shrink-0 items-center group">
               {brandLogoBroken ? (
-                <span className="font-display text-2xl font-bold tracking-[0.12em] text-salt-black">
-                  S<span className="text-salt-violet">A</span>LT
+                <span className="font-sans text-2xl font-extrabold tracking-[0.2em] text-white">
+                  S<span className="text-salt-crimson">A</span>LT
                 </span>
               ) : (
                 <Image
                   src="/Logo1.png"
                   alt="SALT — art with energy"
-                  width={140}
-                  height={56}
-                  className="h-12 max-w-[140px] w-auto object-contain object-left"
+                  width={220}
+                  height={80}
+                  className="h-[46px] md:h-[55px] w-auto object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-all duration-500 hover:scale-105"
                   priority
                   onError={() => setBrandLogoBroken(true)}
                 />
@@ -68,90 +108,88 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <ul className="m-0 hidden list-none items-center justify-center gap-10 p-0 md:flex">
-            {navLinks.map(({ label, href, type }) => (
-              <li key={label}>
-                {type === "page" ? (
-                  <Link href={href} className={linkClass}>
-                    {label}
-                  </Link>
-                ) : (
-                  <a href={href} className={linkClass}>
-                    {label}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-
-          <div className="flex items-center justify-end gap-2">
+          <div className={`flex items-center justify-end transition-all duration-700 ease-in-out ${(!scrolled && !isMouseAtTop) || isInTransformationSection ? "opacity-0 invisible translate-x-4" : "opacity-100 visible translate-x-0"}`}>
             <a
               href="/#kontakt"
-              className={`hidden items-center justify-center sm:inline-flex ${primaryCtaClasses}`}
+              className="hidden items-center justify-center sm:inline-flex rounded-sm bg-salt-crimson px-8 py-3 font-sans text-[0.65rem] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#b8002a] hover:scale-105 shadow-2xl"
             >
-              Gespräch vereinbaren
+              KONTAKT
             </a>
-
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen(true)}
-              className="flex cursor-pointer flex-col gap-1.5 border-none bg-transparent p-2 outline-none md:hidden"
-              aria-label="Menü öffnen"
-            >
-              <span className="block h-0.5 w-6 bg-salt-black" />
-              <span className="block h-0.5 w-6 bg-salt-black" />
-              <span className="block h-0.5 w-6 bg-salt-black" />
-            </button>
           </div>
         </div>
       </nav>
 
-      {isMenuOpen ? (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-salt-white">
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen(false)}
-            className="absolute top-6 right-6 cursor-pointer border-none bg-transparent p-2 text-2xl leading-none text-salt-black outline-none"
-            aria-label="Menü schließen"
-          >
-            ✕
-          </button>
+      {/* Split-Screen Menu Drawer (Left Side) */}
+      <div 
+        className={`fixed inset-0 z-[60] transition-all duration-700 pointer-events-none ${isMenuOpen ? "opacity-100" : "opacity-0"}`}
+      >
+        {/* Backdrop (Right Half) */}
+        <div 
+          className={`absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-700 delay-100 ${isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"}`}
+          onClick={() => setIsMenuOpen(false)}
+        />
 
-          <nav className="flex flex-col items-center gap-8">
-            {navLinks.map(({ label, href, type }) =>
-              type === "page" ? (
-                <Link
+        {/* Content Drawer (Left Half) */}
+        <div 
+          className={`absolute top-0 left-0 h-full bg-[#111] shadow-[20px_0_60px_rgba(0,0,0,0.5)] border-r border-white/5 transition-transform duration-700 ease-out pointer-events-auto w-[100vw] md:w-[60vw] lg:w-[50vw] flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          {/* Header area in drawer */}
+          <div className="sticky top-0 z-20 flex items-center justify-between px-8 md:px-16 py-8 border-b border-white/5 bg-[#111]/95 backdrop-blur-md">
+            <span className="font-sans text-[0.7rem] font-bold tracking-[0.4em] text-salt-crimson uppercase">
+              Navigation
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(false)}
+              className="cursor-pointer border-none bg-white/5 rounded-full p-3 text-white hover:bg-salt-crimson transition-all duration-300 transform hover:rotate-90"
+              aria-label="Menü schließen"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          {/* Links Area */}
+          <nav className="flex-1 flex flex-col justify-center px-8 md:px-16 gap-4 md:gap-5">
+            {navLinks.map(({ label, href, type }, index) => {
+              const Tag = type === "page" ? Link : "a";
+              return (
+                <Tag
                   key={label}
                   href={href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="font-sans text-3xl font-bold text-salt-black no-underline transition-colors hover:text-salt-violet"
+                  className={`font-sans font-extrabold text-white no-underline transition-all duration-500 hover:text-salt-crimson hover:translate-x-3 tracking-[-0.04em] w-fit whitespace-nowrap ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                  style={{ 
+                    fontSize: "clamp(1.5rem, 3.8vw, 4rem)",
+                    transitionDelay: isMenuOpen ? `${index * 60 + 150}ms` : "0ms",
+                    transitionProperty: "opacity, transform, color"
+                  }}
                 >
-                  {label}
-                </Link>
-              ) : (
-                <a
-                  key={label}
-                  href={href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="font-sans text-3xl font-bold text-salt-black no-underline transition-colors hover:text-salt-violet"
-                >
-                  {label}
-                </a>
-              ),
-            )}
+                  {label}<span className="text-salt-crimson opacity-0 hover:opacity-100 transition-opacity ml-2">.</span>
+                </Tag>
+              );
+            })}
           </nav>
 
-          <a
-            href="https://calendly.com/salt-art/30min"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setIsMenuOpen(false)}
-            className="mt-4 rounded-[4px] bg-salt-crimson px-10 py-4 font-sans text-sm font-semibold text-white transition-colors hover:bg-[#b8002a]"
-          >
-            Gespräch vereinbaren
-          </a>
+          {/* Business Footer in drawer */}
+          <div className={`p-8 md:p-16 border-t border-white/5 bg-black/20 transition-all duration-700 delay-500 ${isMenuOpen ? "opacity-100" : "opacity-0"}`}>
+            <p className="font-sans text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-5">
+              Möchtest Du Klarheit?
+            </p>
+            <a
+              href="https://calendly.com/salt-art/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              className="inline-flex rounded-sm bg-salt-crimson px-8 py-4 font-sans text-[0.7rem] font-bold tracking-[0.25em] text-white transition-all duration-300 hover:bg-[#b8002a] hover:scale-105 shadow-2xl uppercase"
+            >
+              Gespräch vereinbaren
+            </a>
+          </div>
         </div>
-      ) : null}
+      </div>
     </>
   );
 }

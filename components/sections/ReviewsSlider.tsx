@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface Review {
@@ -15,6 +16,7 @@ interface Review {
   stars: number;
   quote: string;
   paintingTitle?: string;
+  imageSrc?: string;
 }
 
 const reviews: Review[] = [
@@ -30,6 +32,7 @@ const reviews: Review[] = [
     quote:
       "Ich möchte es nicht versäumen, Ihnen für das speziell für mich geschaffene Kunstwerk zu danken! Ihr vor Energie sprühendes Bild hat bereits einen sehr schönen Platz in meinem Büro gefunden.",
     paintingTitle: "universelle Reinigung",
+    imageSrc: "/Dr.Joseph Ackermann.png",
   },
   {
     id: "corvin-tolle",
@@ -43,6 +46,7 @@ const reviews: Review[] = [
     quote:
       "Kein Arbeitstag ohne mein Wirkungs-Bild™: Ich wurde den schädlichen Geschäftspartner los und konnte das finanzielle Desaster abwenden. Das Bild hat seitdem für immer einen Ehrenplatz in meinem Büro.",
     paintingTitle: "sorglos geborgen",
+    imageSrc: "/Corvin Tolle neu - Edited.png",
   },
   {
     id: "barbara-engel",
@@ -55,6 +59,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "Ich habe dem Tod ins Auge geblickt. Durch Sabine und mein Wirkungs-Bild™ habe ich hingesehen, tief in mein Inneres. Kein leichter Weg, aber befreiend. Rückbildung von Metastasen schon mehr als 40% in 2 Monaten!",
+    imageSrc: "/Barbara Engel - Edited.png",
   },
   {
     id: "francesco-illuminati",
@@ -67,6 +72,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       'Ob das wirklich funktioniert?, fragte ich mich nach meiner spontanen Bestellung, aber dann erinnerte ich mich mein Bild sofort an "the circle of life". Im Außen war alles schon da — nun bin ich auch bei mir innen angekommen. Friedlich. Eine super Investition!',
+    imageSrc: "/Francesco Illuminati - Edited.png",
   },
   {
     id: "grit-kriegel",
@@ -79,6 +85,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "Mein Wirkungs-Bild™ hilft mir, mich abzugrenzen und meine eigene Kraft zu spüren. Ich gehe offensiver mit geschäftlichen Herausforderungen um und habe eine strategische Entscheidung getroffen, die die Mitarbeitergewinnung erleichtert.",
+    imageSrc: "/Grit Kriegel weiß - Edited.png",
   },
   {
     id: "holm-von-egidy",
@@ -91,6 +98,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "Es ist ein sehr faszinierender Spiegel, dieses Bild. Magisch. Tief. Vielschichtig. Nicht auslotbar. Schon etwas sehr Kostbares, was Du da machst, oder Dich als Aufgabe ergriffen hat!",
+    imageSrc: "/Holm von Egidy Foto - Edited.png",
   },
   {
     id: "louise-van-loon",
@@ -115,6 +123,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "Das Gemälde ist einfach großartig! Es schafft eine Atmosphäre, die den Geist beruhigt und gleichzeitig die Sinne belebt. Ich bin sehr dankbar, dieses besondere Kunstwerk bei mir zu haben!",
+    imageSrc: "/Dr.Martin F. Lerchner.png",
   },
   {
     id: "sabine-schwierzke",
@@ -139,6 +148,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "Eine schwierige Entscheidung: Vielfaches Einkommen oder sichere Pension? Ich weiß nicht wie, aber durch mein Bild änderte ich die Frage und orientierte ich an meinen Werten. Dann fiel die Entscheidung leicht. Großen Dank, Sabine!",
+    imageSrc: "/Daniel Ledesma - Foto 2016 - Edited.png",
   },
   {
     id: "petra-koeck",
@@ -163,6 +173,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "Ich kann meine Begeisterung nur so zusammenfassen: Für mich strahlt dieses Bild warmen, beschützenden Sonnenschein aus, der die weitere Entfaltung vorantreibt. Noch einmal ganz herzlich danke!",
+    imageSrc: "/Alexander Christiani.png",
   },
   {
     id: "daniela-ankenbrand",
@@ -187,6 +198,7 @@ const reviews: Review[] = [
     stars: 5,
     quote:
       "WOW - ästhetisch! Noch viel beeindruckender ist für mich die Wirkung. Ich fühle mich beschwingter, energetischer, getragen. Und geschäftlich wird gerade alles, was ich anfasse, zu Gold.",
+    imageSrc: "/Dr.Torsten Schmidt-Bader - Edited.png",
   },
 ];
 
@@ -218,68 +230,46 @@ function ReviewCard({
       type="button"
       onClick={onClick}
       className={`
-        relative flex min-h-0 shrink-0 flex-col gap-4 border-l-[3px] bg-salt-white p-7 text-left
-        transition-all duration-500 ease-out
+        relative flex flex-col md:flex-row shrink-0 bg-[#222] text-left
+        transition-all duration-700 ease-out rounded-sm overflow-hidden border
         ${isActive
-          ? "z-10 w-[380px] scale-100 cursor-pointer border-l-salt-violet opacity-100 shadow-[0_8px_32px_rgba(0,0,0,0.08)] md:w-[440px]"
-          : "z-0 w-[280px] scale-[0.93] cursor-pointer border-l-transparent opacity-40 blur-[1px] md:w-[320px]"
+          ? "z-10 w-[90vw] md:w-[850px] scale-100 cursor-default opacity-100 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          : "z-0 w-[85vw] md:w-[750px] scale-[0.93] cursor-pointer border-transparent opacity-60 blur-[2px]"
         }
       `}
     >
-      <div className="pointer-events-none absolute top-5 right-5">
-        <div className="relative h-6 w-[70px] grayscale opacity-40">
-          <Image
-            src={review.logoSrc}
-            alt={review.logoAlt}
-            fill
-            className="object-contain object-right"
-            sizes="70px"
-          />
+      {/* Left side (Image) */}
+      {review.imageSrc && (
+        <div className="relative w-full h-[220px] md:h-auto md:w-[40%] shrink-0 bg-[#1c1c1c] overflow-hidden">
+           <Image
+             src={review.imageSrc}
+             alt={review.name}
+             fill
+             className="object-cover md:object-cover md:object-top drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] pointer-events-none"
+             sizes="(max-width: 768px) 100vw, 400px"
+             priority={isActive}
+           />
         </div>
-      </div>
+      )}
+      
+      {/* Right side (Text) */}
+      <div className={`flex flex-col justify-center p-6 md:px-10 md:py-8 ${review.imageSrc ? 'md:w-[60%]' : 'w-full'} z-10 bg-[#222]`}>
+        <div className="text-salt-crimson font-sans text-5xl leading-[0.8] mb-2 font-bold">„</div>
+        
+        <h3 className="font-sans text-base md:text-lg font-bold leading-[1.5] text-white mb-4">
+          {review.quote}
+        </h3>
 
-      <div className="flex gap-0.5">
-        {Array.from({ length: review.stars }).map((_, i) => (
-          <span key={i} className="text-sm text-salt-crimson">
-            ★
-          </span>
-        ))}
-      </div>
+        <p className="font-sans text-sm font-bold text-white mb-4">
+          — {review.name}
+        </p>
 
-      <blockquote className="flex-1 font-sans text-sm leading-[1.7] font-normal italic text-salt-black md:text-base">
-        <span className="mr-0.5 align-[-3px] font-sans text-xl leading-none font-extrabold text-salt-violet">
-          „
-        </span>
-        {review.quote}
-        <span className="ml-0.5 align-[-3px] font-sans text-xl leading-none font-extrabold text-salt-violet">
-          &rdquo;
-        </span>
-      </blockquote>
-
-      {review.paintingTitle ? (
-        <div className="inline-flex w-fit items-center gap-2 rounded-[2px] bg-salt-violet-light px-2.5 py-1">
-          <div className="h-1 w-1 shrink-0 rounded-full bg-salt-violet" />
-          <p className="font-sans text-[0.6rem] font-medium tracking-[0.1em] text-salt-violet uppercase">
-            {review.paintingTitle}
+        <div className="flex flex-col gap-1 border-t border-white/10 pt-4">
+          <p className="font-sans text-xs text-white/50 leading-relaxed">
+            <span className="font-bold text-white/70">Rolle:</span> {review.role}
           </p>
-        </div>
-      ) : null}
-
-      <div className="h-px w-full bg-salt-greige/50" />
-
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-salt-violet-mid">
-          <span className="font-sans text-xs font-bold text-salt-violet">
-            {review.initials}
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-0.5">
-          <p className="font-sans text-sm leading-none font-semibold text-salt-black">
-            {review.name}
-          </p>
-          <p className="font-sans text-xs font-normal text-salt-muted-light">
-            {review.role} · {review.company}
+          <p className="font-sans text-xs text-white/50 leading-relaxed">
+            <span className="font-bold text-white/70">Unternehmen:</span> {review.company}
           </p>
         </div>
       </div>
@@ -312,32 +302,38 @@ export default function ReviewsSlider() {
     return () => clearInterval(id);
   }, [activeIndex, isPaused, goNext]);
 
-  const visibleSlides = reviews
-    .map((review, index) => ({ review, index }))
-    .filter(({ index }) => {
-      if (!isMd) return index === activeIndex;
-      return Math.abs(index - activeIndex) <= 1;
-    })
-    .sort((a, b) => a.index - b.index);
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        goPrev();
+      } else if (e.key === "ArrowRight") {
+        goNext();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [goNext, goPrev]);
 
   return (
-    <section className="overflow-hidden bg-salt-greige-bg py-14 md:py-20">
-      <div className="mx-auto mb-8 max-w-[700px] px-6 text-center md:mb-14">
+    <section className="overflow-hidden bg-[#141414] py-16 md:py-24 relative">
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-salt-violet/5 blur-[100px] pointer-events-none" />
+      
+      <div className="mx-auto mb-12 max-w-[800px] px-6 text-center relative z-10">
         <div
-          className="reveal-on-scroll mb-6 flex items-center justify-center gap-3"
+          className="reveal-on-scroll mb-8 flex items-center justify-center gap-4"
           style={{ transitionDelay: "0ms" }}
         >
-          <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
-          <p className="font-sans text-[0.7rem] font-semibold tracking-[0.22em] text-salt-violet uppercase">
-            15 Bewertungen
+          <span className="inline-block h-px w-10 shrink-0 bg-salt-crimson" />
+          <p className="font-sans text-[0.65rem] font-bold tracking-[0.35em] text-salt-crimson uppercase">
+            Echte Kundenstimmen
           </p>
-          <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
+          <span className="inline-block h-px w-10 shrink-0 bg-salt-crimson" />
         </div>
 
         <h2
-          className="reveal-on-scroll mb-4 font-sans font-extrabold tracking-[-0.02em] text-salt-black leading-[1.05]"
+          className="reveal-on-scroll mb-6 font-sans font-extrabold tracking-[-0.03em] text-white leading-[1.05]"
           style={{
-            fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
             transitionDelay: "100ms",
           }}
         >
@@ -345,56 +341,68 @@ export default function ReviewsSlider() {
         </h2>
 
         <div
-          className="reveal-on-scroll mx-auto h-0.5 w-12 bg-salt-crimson"
+          className="reveal-on-scroll mx-auto h-0.5 w-14 bg-salt-crimson"
           style={{ transitionDelay: "160ms" }}
         />
       </div>
 
+      {/* Slider Track Area */}
       <div
-        className="relative"
+        className="relative z-10"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-20 w-24 bg-gradient-to-r from-salt-greige-bg to-transparent" />
-        <div className="pointer-events-none absolute top-0 right-0 bottom-0 z-20 w-24 bg-gradient-to-l from-salt-greige-bg to-transparent" />
+        {/* Soft edge masks */}
+        <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-20 w-32 bg-gradient-to-r from-[#141414] to-transparent hidden xl:block" />
+        <div className="pointer-events-none absolute top-0 right-0 bottom-0 z-20 w-32 bg-gradient-to-l from-[#141414] to-transparent hidden xl:block" />
 
-        <div className="flex items-center justify-center gap-5 px-6">
-          {visibleSlides.map(({ review, index }) => (
-            <ReviewCard
-              key={`${review.name}-${index}`}
-              review={review}
-              isActive={index === activeIndex}
-              onClick={() => goTo(index)}
-            />
-          ))}
+        <div className="relative flex items-center h-[520px] md:h-[450px]">
+          <motion.div 
+            className="flex gap-6 md:gap-10 px-[10vw] md:px-[25vw]"
+            animate={{ 
+              x: isMd 
+                ? -(activeIndex * (750 + 40)) // card width + gap
+                : -(activeIndex * (300 + 24)) // mobile width + gap (approx)
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            {reviews.map((review, index) => (
+              <ReviewCard
+                key={`${review.name}-${index}`}
+                review={review}
+                isActive={index === activeIndex}
+                onClick={() => goTo(index)}
+              />
+            ))}
+          </motion.div>
         </div>
       </div>
 
-      <div className="mt-12 flex items-center justify-center gap-4 px-6 md:gap-6">
+      <div className="mt-8 md:mt-10 flex items-center justify-center gap-6 px-6 relative z-10">
         <button
           type="button"
           onClick={goPrev}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-salt-greige bg-salt-white font-sans text-sm font-semibold text-salt-violet transition-all duration-200 hover:border-salt-violet hover:bg-salt-violet hover:text-white"
+          className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/5 font-sans text-lg text-white backdrop-blur-md transition-all duration-300 hover:bg-salt-crimson hover:border-salt-crimson"
           aria-label="Vorherige Bewertung"
         >
           ←
         </button>
 
-        <div className="flex min-w-[4rem] items-center justify-center gap-2">
-          <span className="font-sans text-xs tracking-[0.06em] text-salt-muted-light md:hidden">
+        <div className="flex min-w-[5rem] items-center justify-center gap-3">
+          <span className="font-sans text-xs tracking-[0.1em] text-white/40 md:hidden font-bold">
             {activeIndex + 1} / {reviews.length}
           </span>
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-3 md:flex">
             {reviews.map((_, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => goTo(index)}
                 className={`
-                h-[4px] cursor-pointer rounded-full transition-all duration-300
+                h-1.5 cursor-pointer rounded-full transition-all duration-500
                 ${index === activeIndex
-                  ? "w-4 bg-salt-violet"
-                  : "w-[4px] bg-salt-greige hover:bg-salt-violet/40"
+                  ? "w-10 bg-white"
+                  : "w-1.5 bg-white/10 hover:bg-white/30"
                 }
               `}
                 aria-label={`Gehe zu Bewertung ${index + 1}`}
@@ -406,7 +414,7 @@ export default function ReviewsSlider() {
         <button
           type="button"
           onClick={goNext}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-salt-greige bg-salt-white font-sans text-sm font-semibold text-salt-violet transition-all duration-200 hover:border-salt-violet hover:bg-salt-violet hover:text-white"
+          className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/5 font-sans text-lg text-white backdrop-blur-md transition-all duration-300 hover:bg-salt-crimson hover:border-salt-crimson"
           aria-label="Nächste Bewertung"
         >
           →

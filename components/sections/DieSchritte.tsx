@@ -36,24 +36,26 @@ export default function DieSchritte() {
   useScrollReveal();
 
   return (
-    <section id="prozess" className="bg-salt-black px-6 py-20">
-      <div className="mx-auto max-w-[1100px]">
-        <div className="mb-16 flex flex-col items-center text-center">
+    <section id="prozess" className="bg-[#141414] px-6 min-h-screen flex flex-col justify-center py-20 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-salt-violet/5 blur-[120px] pointer-events-none" />
+
+      <div className="mx-auto max-w-[1140px] relative z-10">
+        <div className="mb-20 flex flex-col items-center text-center">
           <div
-            className="reveal-on-scroll mb-6 flex items-center gap-3"
+            className="reveal-on-scroll mb-8 flex items-center gap-4"
             style={{ transitionDelay: "0ms" }}
           >
-            <span className="inline-block h-px w-8 shrink-0 bg-salt-crimson" />
-            <p className="font-sans text-[0.7rem] font-semibold tracking-[0.22em] text-salt-crimson uppercase">
+            <span className="inline-block h-px w-10 shrink-0 bg-salt-crimson" />
+            <p className="font-sans text-[0.65rem] font-bold tracking-[0.35em] text-salt-crimson uppercase">
               Der Prozess
             </p>
-            <span className="inline-block h-px w-8 shrink-0 bg-salt-crimson" />
+            <span className="inline-block h-px w-10 shrink-0 bg-salt-crimson" />
           </div>
 
           <h2
-            className="reveal-on-scroll mb-4 font-sans font-extrabold leading-[1.05] tracking-[-0.02em] text-salt-white"
+            className="reveal-on-scroll mb-8 font-sans font-extrabold leading-[1.05] tracking-[-0.03em] text-white"
             style={{
-              fontSize: "clamp(1.8rem, 4vw, 3rem)",
+              fontSize: "clamp(2rem, 5vw, 3.8rem)",
               transitionDelay: "100ms",
             }}
           >
@@ -61,39 +63,39 @@ export default function DieSchritte() {
           </h2>
 
           <div
-            className="reveal-on-scroll h-0.5 w-12 bg-salt-crimson"
+            className="reveal-on-scroll h-0.5 w-14 bg-salt-crimson"
             style={{ transitionDelay: "160ms" }}
           />
         </div>
 
         <div className="relative grid grid-cols-1 gap-0 md:grid-cols-3 md:gap-0">
-          <div className="absolute top-[5.5rem] bottom-[5.5rem] left-[2.75rem] z-0 w-px bg-salt-violet/20 md:hidden" />
-
-          <div className="absolute top-[2.75rem] right-[16.67%] left-[16.67%] z-0 hidden h-px bg-salt-violet/30 md:block" />
+          {/* Connector lines Premium */}
+          <div className="absolute top-[5.5rem] bottom-[5.5rem] left-[2.75rem] z-0 w-px bg-white/5 md:hidden" />
+          <div className="absolute top-[2.75rem] right-[16.67%] left-[16.67%] z-0 hidden h-px bg-white/5 md:block" />
 
           {steps.map((step, index) => (
             <div
               key={step.number}
-              className="reveal-on-scroll relative flex flex-col items-start py-8 pl-24 pr-6 text-left md:items-center md:px-8 md:py-0 md:text-center"
+              className="reveal-on-scroll relative flex flex-col items-start py-10 pl-24 pr-6 text-left md:items-center md:px-10 md:py-0 md:text-center group"
               style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <div className="absolute top-6 left-0 z-10 flex h-[3.5rem] w-[3.5rem] shrink-0 items-center justify-center rounded-full border border-salt-violet/40 bg-salt-black md:relative md:top-auto md:mb-6 md:h-[5.5rem] md:w-[5.5rem]">
-                <span className="font-sans text-lg leading-none font-extrabold text-salt-violet md:text-2xl">
+              <div className="absolute top-8 left-0 z-10 flex h-[3.5rem] w-[3.5rem] shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 group-hover:border-salt-crimson/50 md:relative md:top-auto md:mb-8 md:h-[6rem] md:w-[6rem]">
+                <span className="font-sans text-xl leading-none font-extrabold text-white md:text-3xl tracking-tighter">
                   {step.number}
                 </span>
               </div>
 
-              <h3 className="font-sans text-xl leading-tight font-bold text-white md:mb-3">
+              <h3 className="font-sans text-xl md:text-2xl font-extrabold text-white md:mb-4 tracking-tight">
                 {step.title}
               </h3>
 
-              <div className="mb-4 h-0.5 w-8 bg-salt-violet md:mx-auto" />
+              <div className="mb-6 h-0.5 w-10 bg-salt-crimson md:mx-auto" />
 
-              <p className="mb-4 max-w-[260px] font-sans text-sm leading-[1.8] font-normal text-[#9a9188]">
+              <p className="mb-6 max-w-[280px] font-sans text-base leading-[1.75] font-medium text-white/50">
                 {step.description}
               </p>
 
-              <p className="mb-5 font-sans text-[0.62rem] font-medium tracking-[0.1em] text-salt-violet/60 uppercase">
+              <p className="mb-8 font-sans text-[0.65rem] font-bold tracking-[0.15em] text-salt-crimson uppercase">
                 {step.detail}
               </p>
 
@@ -102,7 +104,7 @@ export default function DieSchritte() {
                   href={step.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block rounded-[4px] bg-salt-crimson px-6 py-3 font-sans text-xs font-semibold tracking-[0.08em] text-white uppercase transition-colors duration-200 hover:bg-[#b8002a]"
+                  className="inline-block rounded-sm bg-salt-crimson px-8 py-4 font-sans text-[0.65rem] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#b8002a] hover:scale-105 shadow-2xl"
                 >
                   {step.cta}
                 </a>
@@ -112,14 +114,14 @@ export default function DieSchritte() {
         </div>
 
         <div
-          className="reveal-on-scroll mt-16 border-t border-white/5 pt-12 text-center"
+          className="reveal-on-scroll mt-24 border-t border-white/10 pt-16 text-center"
           style={{ transitionDelay: "500ms" }}
         >
-          <p className="font-sans text-sm leading-[1.8] font-normal italic text-[#5a5452]">
+          <p className="font-sans text-lg md:text-xl font-medium italic leading-[1.8] text-white/40">
             „Ich brauche nur Deinen Namen und Dein Geburtsdatum —
-            den Rest übernimmt die Energie.“
+            <br className="hidden md:block" /> den Rest übernimmt die Energie.“
           </p>
-          <p className="mt-2 font-sans text-xs font-semibold tracking-[0.1em] text-salt-violet uppercase">
+          <p className="mt-4 font-sans text-[0.65rem] font-bold tracking-[0.25em] text-salt-crimson uppercase">
             — Sabine Alter
           </p>
         </div>

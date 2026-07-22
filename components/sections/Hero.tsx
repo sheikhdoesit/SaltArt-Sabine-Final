@@ -1,211 +1,141 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { primaryCtaClasses, secondaryCtaClasses } from "@/lib/ctaClasses";
-
-/** Tried in order until one loads (place files in `/public`). */
-const HERO_PORTRAIT_SRCS = ["/sabine.jpg", "/Sabine.png"] as const;
-
-const COMPANY_LOGOS = [
-  { src: "/companies/Logo HiQ breit.png", alt: "HiQ" },
-  { src: "/companies/Bundeswehr.png", alt: "Bundeswehr" },
-  { src: "/companies/YNS.png", alt: "YNS" },
-  { src: "/companies/PER Medien.png", alt: "PER Medien" },
-  { src: "/companies/Tolle Immobilien Logo.png", alt: "Tolle Immobilien" },
-  { src: "/companies/Northwind.png", alt: "Northwind" },
-  { src: "/companies/illuminati-logo-2016.png", alt: "Illuminati" },
-  { src: "/companies/christiani_storymarketing_black_72dpi.png", alt: "Christiani" },
-  { src: "/companies/Constellaris Logo.png", alt: "Constellaris" },
-  { src: "/companies/Logo_REWE.svg_.png", alt: "REWE" },
-  { src: "/companies/TÜV Rheinland.png", alt: "TÜV Rheinland" },
-  { src: "/companies/Steuerengel-frei.png", alt: "Steuerengel" },
-  { src: "/companies/InnerWise.png", alt: "InnerWise" },
-  { src: "/companies/Kundengewinnungslabor_logo_web_400.png", alt: "Kundengewinnungslabor" },
-  { src: "/companies/Grit Kriegel.jpg", alt: "Grit Kriegel" },
-  { src: "/companies/deutsche bank transparent.png", alt: "Deutsche Bank" },
-  { src: "/companies/wayv_logo.png", alt: "wayv" },
-  { src: "/companies/Atlas_Logo.svg", alt: "Atlas" },
-] as const;
-
-function LogoStripCell({
-  src,
-  alt,
-}: {
-  src: string;
-  alt: string;
-}) {
-  const [broken, setBroken] = useState(false);
-
-  if (broken) {
-    return (
-      <div
-        className="relative h-10 w-[80px] shrink-0 rounded-sm bg-salt-greige-bg/70 opacity-60 md:w-[90px]"
-        aria-hidden
-      />
-    );
-  }
-
-  return (
-    <div className="relative h-10 w-[80px] shrink-0 grayscale opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100 md:w-[90px]">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-contain object-left"
-        sizes="(max-width: 767px) 80px, 90px"
-        onError={() => setBroken(true)}
-      />
-    </div>
-  );
-}
+import { motion } from "framer-motion";
 
 export default function Hero() {
-  const [portraitIndex, setPortraitIndex] = useState(0);
-  const [portraitFailed, setPortraitFailed] = useState(false);
-
-  const portraitSrc =
-    HERO_PORTRAIT_SRCS[portraitIndex] ?? HERO_PORTRAIT_SRCS[0];
-
   return (
     <section
       id="hero"
-      className="grid min-h-screen grid-cols-1 gap-0 overflow-hidden bg-salt-white pt-[72px] md:grid-cols-2"
+      className="relative min-h-[85vh] lg:min-h-[90vh] w-full overflow-hidden bg-salt-black pt-[100px] pb-12"
     >
-      {/* LEFT COLUMN — below image on mobile, left on desktop */}
-      <div
-        id="sabine"
-        className="order-2 flex flex-col justify-center px-6 py-10 md:order-1 md:min-h-[calc(100vh-72px)] md:px-16 md:py-20"
-      >
-        <p
-          className="mb-6 flex items-center gap-3 font-body text-xs font-semibold uppercase tracking-[0.2em] text-salt-violet opacity-0 animate-fade-slide-up"
-          style={{ animationDelay: "0ms" }}
-        >
-          <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
-          <span className="md:hidden">ENERGIE-KUNST FÜR FÜHRENDE</span>
-          <span className="hidden md:inline">
-            ENERGIE-KUNST FÜR FÜHRUNGSPERSÖNLICHKEITEN
-          </span>
-        </p>
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/hero-bg.png"
+          alt="Ambiente"
+          fill
+          className="object-cover opacity-50"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
+      </div>
 
-        <h1
-          className="mb-6 font-sans font-extrabold leading-[1.1] tracking-[-0.03em] text-salt-black opacity-0 animate-fade-slide-up"
-          style={{
-            animationDelay: "100ms",
-            fontSize: "clamp(2.2rem, 7vw, 4.5rem)",
-          }}
-        >
-          Dein Unterbewusstsein
-          <br />
-          <em className="text-salt-violet italic">kennt den Weg.</em>
-        </h1>
-
-        <p
-          className="mb-8 max-w-[440px] font-body text-base leading-[1.75] font-light text-salt-muted opacity-0 animate-fade-slide-up md:mb-10 md:text-lg"
-          style={{ animationDelay: "200ms" }}
-        >
-          Persönliche Energie-Bilder für Menschen, die an der Spitze stehen —
-          und spüren, dass noch mehr möglich ist.
-        </p>
-
-        <div
-          className="mb-8 flex flex-col gap-3 opacity-0 animate-fade-slide-up sm:flex-row sm:gap-4 md:mb-12"
-          style={{ animationDelay: "320ms" }}
-        >
-          <a
-            href="/#kontakt"
-            className={`inline-flex w-full items-center justify-center text-center no-underline sm:w-auto ${primaryCtaClasses}`}
+      {/* Main Content Container */}
+      <div className="relative z-20 mx-auto flex min-h-[calc(85vh-100px)] max-w-[1400px] items-center px-6 md:px-16 lg:px-24">
+        <div className="max-w-[620px] z-20 py-6">
+          
+          {/* Red Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-3 text-[11px] font-bold text-[#ff0000] uppercase tracking-wide md:text-[12px]"
           >
-            Gespräch vereinbaren →
-          </a>
-          <Link
-            href="/galerie"
-            className={`inline-flex w-full items-center justify-center text-center no-underline sm:w-auto ${secondaryCtaClasses}`}
-          >
-            Galerie entdecken
-          </Link>
-        </div>
+            ENERGETISCHE KUNSTWERKE MIT WIRKUNG
+          </motion.p>
 
-        <div
-          className="opacity-0 animate-fade-slide-up"
-          style={{ animationDelay: "440ms" }}
-        >
-          <p className="mb-3 hidden font-body text-[0.65rem] font-medium tracking-[0.16em] text-salt-greige uppercase sm:block">
-            Unternehmen, mit denen ich gearbeitet habe
-          </p>
-          <div
-            className="flex max-w-full flex-wrap items-center gap-2 overflow-hidden"
-            aria-label="Auswahl von Unternehmenslogos, mit denen Sabine Alter gearbeitet hat"
+          {/* Main Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mb-5 font-sans text-[2.8rem] font-normal leading-[1.08] tracking-tight text-white md:text-[4rem] lg:text-[4.5rem]"
           >
-            {COMPANY_LOGOS.slice(0, 4).map((logo) => (
-              <LogoStripCell key={logo.src} src={logo.src} alt={logo.alt} />
-            ))}
-            {COMPANY_LOGOS.slice(4, 6).map((logo) => (
-              <div key={logo.src} className="hidden sm:block">
-                <LogoStripCell src={logo.src} alt={logo.alt} />
-              </div>
-            ))}
-            <span className="ml-1 shrink-0 font-sans text-[0.72rem] tracking-[0.06em] text-salt-muted-light sm:hidden">
-              +14 weitere
+            Probleme lösen <br />
+            leicht gemacht
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-5 max-w-[520px] text-[14px] leading-relaxed text-white/90 md:text-[16px]"
+          >
+            Ich bringe spirituell offene Unternehmer, die es leid sind, mit
+            herkömmlichen Methoden nicht weiterzukommen, in ihre Kraft.
+          </motion.p>
+
+          {/* Extra Line with Arrow */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="mb-6 flex items-center gap-3"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="opacity-80 flex-shrink-0"
+            >
+              <path d="M4 8c0 5 4 9 10 9" />
+              <path d="M10 13l4 4-4 4" />
+            </svg>
+            <span className="text-[14px] font-medium text-white md:text-[15px]">
+              Energetische Kunst wirkt. Ohne Zeitaufwand.
             </span>
-            <span className="ml-1 hidden shrink-0 font-sans text-[0.72rem] tracking-[0.06em] text-salt-muted-light sm:inline">
-              +12 weitere
-            </span>
-          </div>
+          </motion.div>
+
+          {/* Trust Indicator / Quote with Red Bar */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="mb-8 border-l-[3px] border-[#ff0000] py-1 pl-4"
+          >
+            <p className="text-[16px] font-bold text-white md:text-[18px]">
+              Millionenverluste abgewendet in 4 Wochen
+            </p>
+          </motion.div>
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.0 }}
+          >
+            <Link
+              href="/#kontakt"
+              className="inline-flex items-center justify-center rounded-full bg-[#6200ea] px-8 py-3.5 text-[15px] font-medium text-white shadow-lg transition-all hover:bg-[#5200cc] hover:scale-105"
+            >
+              Lerne mich kennen
+            </Link>
+          </motion.div>
         </div>
       </div>
 
-      {/* RIGHT COLUMN — top on mobile, right on desktop */}
-      <div
-        className="relative order-1 mb-0 h-[55vw] max-h-[420px] min-h-[280px] overflow-hidden bg-gradient-to-b from-salt-violet-light to-salt-greige-bg md:order-2 md:mb-0 md:h-auto md:max-h-none md:min-h-0"
+      {/* Sabine's Image */}
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.4, ease: "easeOut" }}
+        className="pointer-events-none absolute bottom-0 right-0 z-10 h-[88%] w-[55%] max-w-[700px] lg:w-[48%]"
       >
-        {!portraitFailed ? (
-          <div className="absolute inset-0">
-            <Image
-              src={portraitSrc}
-              alt="Sabine Alter — SALT Energie-Künstlerin"
-              fill
-              priority
-              className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              onError={() => {
-                if (portraitIndex + 1 < HERO_PORTRAIT_SRCS.length) {
-                  setPortraitIndex((i) => i + 1);
-                } else {
-                  setPortraitFailed(true);
-                }
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-salt-violet-light/80 to-salt-greige-bg px-6 text-center"
-            role="img"
-            aria-label="Portrait platzhalter"
-          >
-            <p className="font-body max-w-xs text-sm font-normal text-salt-muted">
-              Legen Sie das Portrait als{" "}
-              <code className="text-salt-violet">public/sabine.jpg</code> oder{" "}
-              <code className="text-salt-violet">public/Sabine.png</code> ab.
-            </p>
-          </div>
-        )}
-
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 hidden h-40 bg-gradient-to-b from-salt-violet-light/50 to-transparent md:block" />
-
-        <div className="absolute top-6 right-6 z-20 hidden rounded-[2px] bg-salt-gold px-4 py-2 font-sans text-[0.68rem] font-semibold tracking-[0.12em] text-white uppercase md:block">
-          3Sat · Scobel
+        <div className="relative h-full w-full">
+          <Image
+            src="/sabine.png"
+            alt="Sabine Alter"
+            fill
+            className="object-contain object-bottom-right"
+            priority
+          />
         </div>
+      </motion.div>
 
-        <div className="absolute bottom-8 left-8 z-20 hidden border-l-[3px] border-salt-violet bg-white px-5 py-4 md:block">
-          <p className="font-sans text-4xl leading-none font-extrabold text-salt-violet">
-            38+
-          </p>
-          <p className="mt-1 font-sans text-[0.7rem] font-medium uppercase tracking-[0.1em] text-salt-muted-light">
-            Einmalige Energie-Bilder
-          </p>
-        </div>
+      {/* Bottom Right Text */}
+      <div className="absolute bottom-0 right-0 z-30 bg-black/60 px-6 py-2.5 backdrop-blur-xs">
+        <p className="text-[12px] font-medium text-white/90 md:text-[13px]">
+          Sabine Alter, Transformations-Coach & Medium
+        </p>
       </div>
     </section>
   );

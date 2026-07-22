@@ -1,197 +1,223 @@
 "use client";
 
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { SaturnOrbitAnimation, DNAHelixAnimation, KeyEnergyAnimation, PersonEnergyMirrorAnimation, VioletSymbolRain } from "@/components/Animations";
 
-function QuantumAnimation() {
-  return (
-    <div className="relative h-[180px] w-[180px]">
-      <div className="absolute inset-0 animate-[spin_3s_linear_infinite] rounded-full border border-salt-violet/30">
-        <div className="absolute -top-[4px] left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-salt-violet" />
-      </div>
-      <div className="absolute inset-[24px] animate-[spin_5s_linear_infinite_reverse] rounded-full border border-salt-crimson/30">
-        <div className="absolute -top-[4px] left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-salt-crimson" />
-      </div>
-      <div className="absolute inset-[48px] animate-[spin_8s_linear_infinite] rounded-full border border-salt-violet/20">
-        <div className="absolute -top-[3px] left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-salt-violet/60" />
-      </div>
-      <div className="absolute inset-[72px] animate-[saltSciencePulse_2s_ease-in-out_infinite] rounded-full bg-gradient-to-br from-salt-violet to-salt-crimson opacity-90" />
-    </div>
-  );
-}
+// ─── Animations mapping ───────────────────────────────────────────────────────
 
-function EyeAnimation() {
+const STEPS = [
+  {
+    label: "01",
+    heading: ["4 Dimensionen +", "Bewusstseinsfelder"],
+    body: "In unserer Welt kennen wir 4 Dimensionen von Raum und Zeit. Bekannte Physiker gehen aber davon aus, dass es darüber hinaus noch weitere Dimensionen gibt: Bewusstseins- und Informationsfelder, in denen bereits ALLE Lösungen und Möglichkeiten für Deinen Erfolg- und Deine Erfüllung gespeichert sind.",
+    bgLeft: "#111",
+    Animation: SaturnOrbitAnimation,
+  },
+  {
+    label: "02",
+    heading: ["Blaupause für", "Dein Leben"],
+    body: "Diese Felder sind wie eine Blaupause für Dein Leben, ähnlich wie die DNA der Bauplan für Deinen Körper ist. Während klassische Coachings mit dem Unterbewusstsein arbeiten - zum Beispiel durch Mindset-Arbeit, Glaubenssätze, NLP oder Hypnose - gibt es noch eine viel kraftvollere Möglichkeit Dein volles Potenzial zu entfalten.",
+    bgLeft: "#111",
+    Animation: DNAHelixAnimation,
+  },
+  {
+    label: "03",
+    heading: ["Der Schlüssel =", "Dein Zugang"],
+    body: "Der Schlüssel = Dein Zugang zu diesen höheren Dimensionen. Mit Deinem persönlichen Wirkungs-Bild™ erhälst Du Dein eigenes Tor zu diesen Informationsdimensionen. Dieses Bild ist nicht nur Kunst - es wird speziell für Dich gestaltet und energetisch abgestimmt. Es arbeitet subtil im Hintergrund, fast wie ein Spiegelbild, in dem Du Dich erkennst. Jedes Mal, wenn Du es siehst, schenkt es Dir mehr Klarheit, Fokus und Energie!",
+    bgLeft: "#111",
+    Animation: KeyEnergyAnimation,
+  },
+  {
+    label: "04",
+    heading: ["Kraftvoller", "Begleiter"],
+    body: "Dein persönliches Wirkungs-Bild™ unterstützt Dich dabei, energetische Blockaden zu lösen, intuitive Lösungen zu entdecken und Entscheidungen mit Klarheit und Selbstvertrauen zu treffen. Es hilft Dir, Erfolg und Erfüllung in Deinem Geschäfts- und Privatleben zu erreichen - ganz mühelos, jedes Mal, wenn Dein Blick darauf fällt. Diese einzigartige Werkzeug ist ein kraftvoller Begleiter für Dein Leben.",
+    bgLeft: "#111",
+    Animation: PersonEnergyMirrorAnimation,
+  },
+];
+
+const COUNT = STEPS.length;
+const VH_PER_STEP = 300;
+
+// ─── Per-step text panel ──────────────────────────────────────────────────────
+function StepTextPanel({
+  step,
+  index,
+  globalProgress,
+}: {
+  step: (typeof STEPS)[0];
+  index: number;
+  globalProgress: MotionValue<number>;
+}) {
+  const start = index / COUNT;
+  const end = (index + 1) / COUNT;
+  const local = useTransform(globalProgress, [start, end], [0, 1]);
+
+  const opacity = useTransform(local, [0, 0.12, 0.85, 1], [0, 1, 1, 0]);
+  const y = useTransform(local, [0, 0.12], [28, 0]);
+
+  const labelOp = useTransform(local, [0.05, 0.15], [0, 1]);
+  const h1Op = useTransform(local, [0.12, 0.24], [0, 1]);
+  const h1Y = useTransform(local, [0.12, 0.24], [16, 0]);
+  const divOp = useTransform(local, [0.22, 0.30], [0, 1]);
+  const bodyOp = useTransform(local, [0.28, 0.45], [0, 1]);
+  const bodyY = useTransform(local, [0.28, 0.45], [10, 0]);
+
   return (
-    <div className="relative flex h-[200px] w-[200px] items-center justify-center">
-      <div
-        className="absolute inset-0 animate-[aurora_4s_ease-in-out_infinite_alternate] rounded-full opacity-20"
-        style={{
-          background:
-            "radial-gradient(circle, #6A0BCF, #D40000, transparent)",
-        }}
-      />
-      <div
-        className="relative h-[80px] w-[140px] animate-[blink_4s_ease-in-out_infinite]"
-        style={{ overflow: "hidden" }}
+    <motion.div
+      style={{ opacity, y }}
+      className="absolute inset-0 flex flex-col justify-center px-10 md:px-16 xl:px-20 py-16"
+    >
+      <motion.p
+        style={{ opacity: labelOp }}
+        className="mb-5 text-[0.65rem] font-bold tracking-[0.28em] text-salt-crimson uppercase"
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "#F7F5F3",
-            borderRadius: "50%",
-          }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 animate-[aurora_3s_ease-in-out_infinite_alternate] rounded-full"
-          style={{
-            background: "radial-gradient(circle, #6A0BCF, #4a0891)",
-          }}
-        />
-        <div className="absolute top-1/2 left-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#141414]" />
-        <div className="absolute top-[30%] left-[54%] h-2 w-2 rounded-full bg-white/60" />
-      </div>
-    </div>
-  );
-}
+        {step.label}
+      </motion.p>
 
-function MorphogeneticAnimation() {
-  const rings = [
-    { inset: "0px", delay: "0.6s" },
-    { inset: "16px", delay: "0.4s" },
-    { inset: "32px", delay: "0.2s" },
-    { inset: "48px", delay: "0s" },
-  ];
+      <motion.h3
+        style={{ opacity: h1Op, y: h1Y }}
+        className="font-sans text-3xl md:text-4xl xl:text-5xl font-extrabold tracking-tighter leading-tight text-white mb-4"
+      >
+        {step.heading[0]}
+        <br />
+        {step.heading[1]}
+      </motion.h3>
 
-  return (
-    <div className="relative h-[180px] w-[180px]">
-      {rings.map((ring, i) => (
-        <div
-          key={i}
-          className="absolute animate-[morphPulse_3s_ease-in-out_infinite] rounded-full border border-salt-violet"
-          style={{
-            inset: ring.inset,
-            animationDelay: ring.delay,
-          }}
-        />
-      ))}
-      <div className="absolute inset-[72px] animate-[saltSciencePulse_2s_ease-in-out_infinite] rounded-full bg-salt-violet" />
-      <div className="absolute inset-[60px] animate-[morphPulse_3s_ease-in-out_infinite] rounded-full border-2 border-salt-violet/40" />
-    </div>
-  );
-}
+      <motion.div style={{ opacity: divOp }} className="h-0.5 w-12 bg-salt-violet mb-6" />
 
-export default function WieDieBilderWirken() {
-  useScrollReveal();
+      <motion.p
+        style={{ opacity: bodyOp, y: bodyY }}
+        className="font-sans text-base leading-[1.85] text-white/70 max-w-[440px]"
+      >
+        {step.body}
+      </motion.p>
 
-  return (
-    <section id="wie-es-wirkt" className="bg-salt-white pb-0">
-      <div className="flex flex-col items-center bg-salt-white px-6 py-14 text-center md:py-20">
-        <div className="mx-auto flex max-w-[700px] flex-col items-center">
+      {/* Step indicator dots */}
+      <div className="absolute bottom-10 left-10 md:left-16 xl:left-20 flex gap-2">
+        {STEPS.map((_, i) => (
           <div
-            className="reveal-on-scroll mb-6 flex items-center gap-3"
-            style={{ transitionDelay: "0ms" }}
-          >
-            <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
-            <p className="font-sans text-[0.7rem] font-semibold tracking-[0.22em] text-salt-violet uppercase">
-              Die Wissenschaft
-            </p>
-            <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
-          </div>
-          <h2
-            className="reveal-on-scroll mb-4 text-center font-sans font-extrabold tracking-[-0.02em] text-salt-black leading-[1.05]"
-            style={{
-              fontSize: "clamp(2rem, 5vw, 3rem)",
-              transitionDelay: "100ms",
-            }}
-          >
-            Wie die Bilder wirken
-          </h2>
-          <div
-            className="reveal-on-scroll mb-6 h-0.5 w-12 bg-salt-crimson"
-            style={{ transitionDelay: "160ms" }}
+            key={i}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              i === index ? "w-8 bg-salt-violet" : "w-1.5 bg-salt-greige"
+            }`}
           />
-          <p
-            className="reveal-on-scroll max-w-[480px] font-sans text-base leading-[1.8] font-normal text-salt-muted"
-            style={{ transitionDelay: "220ms" }}
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Left animation panel: bg + animation fade between steps ─────────────────
+function AnimationPanel({
+  globalProgress,
+}: {
+  globalProgress: MotionValue<number>;
+}) {
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      {STEPS.map(({ Animation, bgLeft }, index) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const start = index / COUNT;
+        const end = (index + 1) / COUNT;
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const local = useTransform(globalProgress, [start, end], [0, 1]);
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const opacity = useTransform(local, [0, 0.12, 0.85, 1], [0, 1, 1, 0]);
+
+        return (
+          <motion.div
+            key={index}
+            style={{ opacity, backgroundColor: bgLeft }}
+            className="absolute inset-0 flex items-center justify-center"
           >
-            Nicht Mystik — Physik. Drei wissenschaftliche Grundlagen erklären,
-            warum Energie-Bilder wirken und wie sie Dein Unterbewusstsein
-            erreichen.
-          </p>
+            <Animation />
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── Main export ──────────────────────────────────────────────────────────────
+export default function WieDieBilderWirken() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: trackRef });
+  const sectionHeight = `${COUNT * VH_PER_STEP}vh`;
+
+  return (
+    <section id="wie-es-wirkt" className="bg-[#141414]">
+      {/* Section heading — above the sticky area */}
+      <div className="bg-[#141414] pt-32 pb-24 px-6 max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          
+          {/* Left: Scientific Narrative */}
+          <div className="flex flex-col">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="inline-block h-px w-8 shrink-0 bg-salt-violet" />
+              <p className="font-sans text-[0.7rem] font-bold tracking-[0.3em] text-salt-violet uppercase">
+                Die Wissenschaft
+              </p>
+            </div>
+            
+            <h2
+              className="mb-8 font-sans font-extrabold tracking-[-0.03em] text-white leading-[1.05]"
+              style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
+            >
+              Wusstest Du <span className="text-salt-violet italic">... ?</span>
+            </h2>
+
+            <div className="h-0.5 w-14 bg-salt-crimson mb-10" />
+
+            <div className="flex flex-col gap-6 text-white/50">
+              <p className="font-sans text-xl md:text-2xl font-extrabold text-white leading-[1.4] tracking-tight">
+                Quantenphysiker haben entdeckt: <br />
+                <span className="text-salt-violet">Unsere Beobachtung beeinflusst die Realität!</span>
+              </p>
+              
+              <p className="font-sans text-lg md:text-xl leading-[1.8] font-medium italic">
+                Das ist nicht nur ein faszinierender Fakt ...
+              </p>
+
+              <p className="font-sans text-lg md:text-xl leading-[1.8] font-medium text-white/70">
+                Es bedeutet: <span className="text-white font-bold">Dein Bewusstsein spielt eine entscheidende Rolle</span>, wenn es darum geht, Dein Leben aktiv zu gestalten.
+              </p>
+            </div>
+          </div>
+
+          {/* Right: Symbol Rain Animation (Digital Field Visualization) */}
+          <div className="relative h-[340px] lg:h-[510px] w-full lg:max-w-[540px] lg:ml-auto rounded-2xl overflow-hidden border border-salt-violet/20 bg-[#05000f]/40 shadow-[0_0_50px_rgba(106,11,207,0.1)]">
+             <VioletSymbolRain speed="medium" />
+             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+          </div>
+
         </div>
       </div>
 
-      {/* Row 1 — Quantenphysik: text left, visual right */}
-      <div className="grid min-h-[380px] grid-cols-1 md:grid-cols-2">
-        <div className="reveal-on-scroll flex flex-col justify-center gap-5 bg-salt-white px-6 py-10 md:px-16 md:py-16">
-          <p className="font-sans text-[0.7rem] font-semibold tracking-[0.2em] text-salt-crimson uppercase">
-            01 — Quantenphysik
-          </p>
-          <h3 className="font-sans text-2xl font-extrabold tracking-[-0.02em] text-salt-black leading-[1.1] md:text-3xl">
-            Alles ist Energie.
-            <br />
-            Auch Dein Bild.
-          </h3>
-          <div className="h-0.5 w-10 bg-salt-violet" />
-          <p className="max-w-[400px] font-sans text-base leading-[1.8] font-normal text-salt-muted">
-            Quantenphysik zeigt: Materie und Bewusstsein sind nicht getrennt.
-            Ein Energie-Bild ist kein Zufall — es entsteht in Resonanz mit Deiner
-            einzigartigen Schwingung. Jeder Mensch hat eine eigene Frequenz.
-            Sabine stimmt das Bild auf genau diese Frequenz ab.
-          </p>
-        </div>
-        <div className="reveal-on-scroll relative flex min-h-[240px] items-center justify-center overflow-hidden bg-salt-violet-light md:min-h-0">
-          <QuantumAnimation />
-        </div>
-      </div>
+      {/* Sticky split-screen scroll section */}
+      <div ref={trackRef} style={{ height: sectionHeight }}>
+        <div className="sticky top-0 h-screen overflow-hidden">
+          <div className="grid h-full grid-cols-2">
 
-      {/* Row 2 — Farbe & Auge: visual left, text right */}
-      <div className="grid min-h-[380px] grid-cols-1 md:grid-cols-2">
-        <div className="reveal-on-scroll relative flex min-h-[240px] items-center justify-center overflow-hidden bg-[#141414] md:min-h-0">
-          <EyeAnimation />
-        </div>
-        <div className="reveal-on-scroll flex flex-col justify-center gap-5 bg-salt-greige-bg px-6 py-10 md:px-16 md:py-16">
-          <p className="font-sans text-[0.7rem] font-semibold tracking-[0.2em] text-salt-crimson uppercase">
-            02 — Farbe & Auge
-          </p>
-          <h3 className="font-sans text-2xl font-extrabold tracking-[-0.02em] text-salt-black leading-[1.1] md:text-3xl">
-            Farben sprechen
-            <br />
-            direkt zum Gehirn.
-          </h3>
-          <div className="h-0.5 w-10 bg-salt-violet" />
-          <p className="max-w-[400px] font-sans text-base leading-[1.8] font-normal text-salt-muted">
-            Jede Farbe sendet eine spezifische Wellenlänge. Das Auge empfängt sie
-            — das Gehirn verarbeitet sie unbewusst, bevor der Verstand eingreifen
-            kann. Sabine wählt jede Farbe in Deinem Energie-Bild gezielt auf
-            Deine persönliche Energie ab. Das Ergebnis wirkt täglich auf Dich
-            ein.
-          </p>
-        </div>
-      </div>
+            {/* LEFT: Dark panel, animation cycles */}
+            <div className="bg-[#141414]">
+              <AnimationPanel globalProgress={scrollYProgress} />
+            </div>
 
-      {/* Row 3 — Morphogenetisches Feld: text left, visual right */}
-      <div className="grid min-h-[380px] grid-cols-1 md:grid-cols-2">
-        <div className="reveal-on-scroll flex flex-col justify-center gap-5 bg-salt-white px-6 py-10 md:px-16 md:py-16">
-          <p className="font-sans text-[0.7rem] font-semibold tracking-[0.2em] text-salt-crimson uppercase">
-            03 — Morphogenetisches Feld
-          </p>
-          <h3 className="font-sans text-2xl font-extrabold tracking-[-0.02em] text-salt-black leading-[1.1] md:text-3xl">
-            Das Feld kennt
-            <br />
-            Deine Geschichte.
-          </h3>
-          <div className="h-0.5 w-10 bg-salt-violet" />
-          <p className="max-w-[400px] font-sans text-base leading-[1.8] font-normal text-salt-muted">
-            Dr. Rupert Sheldrake zeigt: Alle Lebewesen sind durch ein unsichtbares
-            morphogenetisches Feld verbunden. Informationen werden darin
-            gespeichert und weitergegeben — unabhängig von Zeit und Raum. Sabine
-            nutzt dieses Feld, um ein Bild zu erschaffen, das auf Deine
-            einzigartige Energie eingestimmt ist. Nur Dein Name und Geburtsdatum
-            genügen.
-          </p>
-        </div>
-        <div className="reveal-on-scroll relative flex min-h-[240px] items-center justify-center overflow-hidden bg-salt-greige-bg md:min-h-0">
-          <MorphogeneticAnimation />
+            {/* RIGHT: Dark panel, text fades per step */}
+            <div className="relative bg-[#141414] border-l border-white/5 overflow-hidden">
+              {STEPS.map((step, index) => (
+                <StepTextPanel
+                  key={index}
+                  step={step}
+                  index={index}
+                  globalProgress={scrollYProgress}
+                />
+              ))}
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
